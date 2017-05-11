@@ -67,3 +67,67 @@ void myturn(int cnt) {
 	// 여기서 배열크기(cnt)는 myturn()의 파라미터 cnt를 그대로 넣어야합니다.
 	domymove(x, y, cnt);
 }
+
+int countsInLine(int x, int y, int op, char type) {
+	int xCounts = 0;
+	int yCounts = 0;
+	if (showBoard(x, y) == op) {
+		if (type == 'y') {
+			for (int i = 0; i < height - y; i++) {
+				if (showBoard(x, y + i) == op) {
+					yCounts++;
+				}
+			}return yCounts;
+		}
+		else if (type == 'x') {
+			for (int j = 0; j < height - x; j++) {
+				if (showBoard(x + j, y) == op) {
+					xCounts++;
+				}
+			}return xCounts;
+		}
+	}
+}
+
+int (*showContinuousLine(int op))[4] {
+	int continuousLines[300][4] = {NULL};
+	int count = 0;
+	int endX;
+	int endY;
+
+	//column
+	for (int i = 1; i <= 19; i++) {
+		int type = 1;
+		int size = 0;
+		for (int j = 1; j <= 19; j++) {
+			if (showBoard(i, j) == op || showBoard(i, j) == 0) {
+				if (showBoard(i, j) == op) {
+					size++;
+				}
+				endX = i;
+				endY = j;
+				continuousLines[count] += {op, type, endX, endY, size};
+				count++;
+			}
+		}
+	}
+
+	//row
+	for (int j = 1; j <= 19; j++) {
+		int type = 1;
+		int size = 0;
+		for (int i = 1; i <= 19; i++) {
+			if (showBoard(i, j) == op || showBoard(i, j) == 0) {
+				if (showBoard(i, j) == op) {
+					size++;
+				}
+				endX = i;
+				endY = j;
+				continuousLines[count] += {op, type, endX, endY, size};
+				count++;
+			}
+		}
+	}
+
+	return continuousLines;
+}
